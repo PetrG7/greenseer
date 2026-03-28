@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>GREENSEER | Access Portal</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=Inter:wght@300;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error-container": "#ffd2c8", "outline": "#6d758c", "on-secondary-container": "#e4ffe2",
+                        "primary-fixed": "#6bff8f", "secondary-fixed-dim": "#70ed8a", "on-secondary-fixed-variant": "#006a2c",
+                        "inverse-on-surface": "#4d556b", "secondary": "#7ffc97", "tertiary-fixed-dim": "#5def8f",
+                        "surface": "#060e20", "surface-dim": "#060e20", "tertiary": "#c4ffcd", "surface-tint": "#6bff8f",
+                        "on-surface-variant": "#a3aac4", "secondary-fixed": "#7ffc97", "on-tertiary-fixed": "#004a22",
+                        "error": "#ff7351", "surface-container": "#0f1930", "surface-container-high": "#141f38",
+                        "error-container": "#b92902", "inverse-surface": "#faf8ff", "on-primary-fixed-variant": "#006a2d",
+                        "outline-variant": "#40485d", "on-secondary": "#005f27", "primary-dim": "#5bf083",
+                        "on-primary-container": "#002c0f", "on-secondary-fixed": "#004a1c", "surface-container-low": "#091328",
+                        "surface-container-lowest": "#000000", "error-dim": "#d53d18", "surface-variant": "#192540",
+                        "on-background": "#dee5ff", "secondary-dim": "#70ed8a", "on-surface": "#dee5ff",
+                        "background": "#060e20", "tertiary-fixed": "#6dfe9c", "inverse-primary": "#006e2f",
+                        "on-tertiary-fixed-variant": "#006a34", "on-primary": "#005f28", "on-primary-fixed": "#004a1d",
+                        "on-error": "#450900", "tertiary-container": "#6dfe9c", "secondary-container": "#006e2d",
+                        "primary-fixed-dim": "#5bf083", "tertiary-dim": "#5def8f", "on-tertiary-container": "#005f2e",
+                        "surface-container-highest": "#192540", "surface-bright": "#1f2b49", "primary-container": "#0abc56",
+                        "primary": "#6bff8f", "on-tertiary": "#006833"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"], "body": ["Manrope"], "label": ["Space Grotesk"], "logo": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .low-poly-bg {
+            background-color: #060e20;
+            background-image: linear-gradient(30deg, #091328 12%, transparent 12.5%, transparent 87%, #091328 87.5%, #091328),
+            linear-gradient(150deg, #091328 12%, transparent 12.5%, transparent 87%, #091328 87.5%, #091328),
+            linear-gradient(30deg, #091328 12%, transparent 12.5%, transparent 87%, #091328 87.5%, #091328),
+            linear-gradient(150deg, #091328 12%, transparent 12.5%, transparent 87%, #091328 87.5%, #091328),
+            linear-gradient(60deg, #0f1930 25%, transparent 25.5%, transparent 75%, #0f1930 75%, #0f1930),
+            linear-gradient(60deg, #0f1930 25%, transparent 25.5%, transparent 75%, #0f1930 75%, #0f1930);
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary min-h-screen flex flex-col low-poly-bg">
+    
+    <header class="bg-[#060e20] dark:bg-[#060e20] flex justify-between items-center w-full px-6 py-4">
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-[16px] font-logo select-none">
+                <svg class="eye-icon block" height="60" viewBox="0 0 100 100" width="60" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 5,50 L 30,25 L 70,25 L 95,50 L 70,75 L 30,75 Z" fill="none" stroke="#22c55e" stroke-width="3"></path>
+                    <path d="M 12,50 L 32,32 L 68,32 L 88,50 L 68,68 L 32,68 Z" fill="#020617"></path>
+                    <path d="M 50,32 L 66,41 L 66,59 L 50,68 L 34,59 L 34,41 Z" fill="#16a34a"></path>
+                    <path d="M 50,32 L 66,41 L 50,50 Z" fill="#4ade80" opacity="0.5"></path>
+                    <path d="M 34,41 L 50,32 L 50,50 Z" fill="#064e3b" opacity="0.3"></path>
+                    <path d="M 50,40 L 56,50 L 50,60 L 44,50 Z" fill="#020617"></path>
+                    <path d="M 42,42 L 46,40 L 44,44 Z" fill="#ffffff" opacity="0.9"></path>
+                </svg>
+                <div class="text-[32px] font-extrabold text-[#f8fafc] tracking-[0.15em] m-0">GREEN<span class="text-[#22c55e] font-light">SEER</span></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-6 py-12 w-full">
+        <div class="w-full max-w-md">
+            <div class="bg-surface-container p-8 md:p-10 relative shadow-none border-none">
+                <form class="space-y-6">
+                    <div class="space-y-2">
+                        <label class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant block font-semibold" for="email">Network ID / Email</label>
+                        <input class="w-full bg-surface-container-high border-0 border-b border-outline-variant/30 focus:border-primary focus:ring-0 text-on-surface placeholder:text-outline/50 p-3 transition-all duration-300 font-body text-sm" id="email" placeholder="operator@greenseer.io" type="email"/>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-end">
+                            <label class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant block font-semibold" for="password">Password</label>
+                            <a class="font-label text-[10px] uppercase tracking-tighter text-primary/60 hover:text-primary transition-colors" href="#">Forgot Password?</a>
+                        </div>
+                        <input class="w-full bg-surface-container-high border-0 border-b border-outline-variant/30 focus:border-primary focus:ring-0 text-on-surface placeholder:text-outline/50 p-3 transition-all duration-300 font-body text-sm" id="password" placeholder="••••••••••••" type="password"/>
+                    </div>
+                    <div class="pt-4">
+                        <button class="w-full bg-primary hover:bg-primary-dim text-on-primary font-headline font-bold py-4 px-8 transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-3" type="submit">
+                            LOG IN
+                            <span class="material-symbols-outlined text-xl">login</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-[#060e20] dark:bg-[#060e20] w-full py-6 px-6 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-[#40485d]/10">
+        <p class="font-['Manrope'] text-[10px] uppercase tracking-widest text-[#40485d]">© 2026 GREENSEER</p>
+    </footer>
+    
+</body>
+</html>
