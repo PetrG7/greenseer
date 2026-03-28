@@ -1,18 +1,20 @@
 <div align="center">
 	<img src="assets/logo/logo_default.svg" alt="Greenseer Logo" width="350">
 	<br>
-	<p><em>Greenseer — a system for total informational supremacy.</em></p>
+	<p><em>Greenseer — The ultimate logistics information software. A true force multiplier for live vehicle tracking and total informational supremacy.</em></p>
 </div>
 
 ---
 
 ## Overview
 
-**Greenseer** is currently under active development. Built for absolute data control, visibility, and speed, the system leverages a memory-safe, high-performance Rust backend paired with a lightweight, native web frontend to process and serve information with unparalleled efficiency.
+**Greenseer** is a next-generation logistics information software currently under active development. Designed as a definitive force multiplier for fleet operations, it provides high-fidelity, live vehicle tracking to ensure absolute data control, visibility, and speed. 
+
+The system leverages a memory-safe, high-performance Rust backend paired with a lightweight, native web frontend to process and serve live telemetry and logistical data with unparalleled efficiency. Whether routing a single asset or monitoring a global fleet, Greenseer cuts through the noise to deliver critical information exactly when it's needed.
 
 ## Technology Stack
 
-Engineered for reliability, concurrency, and scale.
+Engineered for reliability, real-time concurrency, and massive scale.
 
 ### Core & Infrastructure
 ![Rust](https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white)
@@ -30,7 +32,7 @@ Engineered for reliability, concurrency, and scale.
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-* **Frontend:** Vanilla HTML, CSS, and JS for a bloat-free, ultra-fast user experience without heavy framework overhead.
+* **Frontend:** Vanilla HTML, CSS, and JS for a bloat-free, ultra-fast user experience without heavy framework overhead—ensuring map and tracking renders never drop a frame.
 
 ---
 
