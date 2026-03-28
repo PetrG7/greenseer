@@ -1,5 +1,5 @@
 # build the Rust application
-FROM rust:1.77-bookworm as builder
+FROM rust:1.85-bookworm as builder
 WORKDIR /app
 # copy source code into the container
 COPY . .
