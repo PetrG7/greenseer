@@ -1,0 +1,30 @@
+/* Zero-Radius Brutalism global override */
+* { 
+  border-radius: 0 !important; 
+}
+
+/* Custom Tactical Map Background */
+.map-grid {
+  background-image: 
+    linear-gradient(#40485d 1px, transparent 1px),
+    linear-gradient(90deg, #40485d 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+}
+
+/* 45-degree angle chip cutouts */
+.clip-status {
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* Custom Dark Scrollbars */
+::-webkit-scrollbar { 
+  width: 8px; 
+  height: 8px;
+}
+::-webkit-scrollbar-track { 
+  background: #091328; 
+}
+::-webkit-scrollbar-thumb { 
+  background: #192540; 
+}
