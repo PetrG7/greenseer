@@ -1,6 +1,5 @@
 {#This is the main app in jinja templating, will probably have to separate the components later down the line, because its very long#}
 
-
 {% extends "base" %}
 {% from "components" import brand_logo %}
 
@@ -53,6 +52,44 @@
         <div class="font-space text-5xl text-[#dee5ff]">{{ stats.signal_integrity | default("0.0") }}%</div>
       </div>
     </div>
+
+    <div class="mt-12 border-t border-outline-ghost pt-10">
+      <h3 class="font-space text-xl text-outline-variant mb-6 uppercase tracking-[0.15em] flex items-center gap-3">
+        <div class="w-1.5 h-1.5 bg-outline-variant animate-pulse"></div>
+        Tracking Configuration
+      </h3>
+      
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        {% for group_name, group_assets in asset_groups|items %}
+        <div class="bg-surface-container border border-outline-ghost p-6 tracking-group">
+          
+          <label class="flex items-center gap-4 cursor-pointer mb-5 pb-5 border-b border-outline-ghost group">
+            <input type="checkbox" checked class="parent-checkbox shrink-0 cursor-pointer appearance-none transition-all duration-200 w-6 h-6 bg-surface-container-high border-2 border-outline-variant hover:border-primary checked:bg-primary checked:border-primary checked:bg-contain checked:bg-center checked:bg-no-repeat checked:bg-[url('data:image/svg+xml,%3Csvg%20viewBox=%220%200%2016%2016%22%20fill=%22%23060e20%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect%20x=%224%22%20y=%224%22%20width=%228%22%20height=%228%22%20/%3E%3C/svg%3E')] indeterminate:bg-outline-variant indeterminate:border-outline-variant indeterminate:bg-contain indeterminate:bg-center indeterminate:bg-no-repeat indeterminate:bg-[url('data:image/svg+xml,%3Csvg%20viewBox=%220%200%2016%2016%22%20fill=%22%23060e20%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect%20x=%223%22%20y=%227%22%20width=%2210%22%20height=%222%22%20/%3E%3C/svg%3E')] shadow-[0_0_10px_rgba(107,255,143,0.1)]">
+            <span class="font-space text-lg text-on-surface uppercase tracking-widest group-hover:text-primary transition-colors select-none">
+              {{ group_name | replace('_', ' ') }}
+            </span>
+          </label>
+          
+          <div class="flex flex-col gap-4 pl-2">
+            {% for asset in group_assets %}
+            <label class="flex items-center gap-4 cursor-pointer group/child">
+              <input type="checkbox" checked class="child-checkbox shrink-0 cursor-pointer appearance-none transition-all duration-200 w-5 h-5 bg-surface-container-high border-2 border-outline-variant hover:border-primary checked:bg-primary checked:border-primary checked:bg-contain checked:bg-center checked:bg-no-repeat checked:bg-[url('data:image/svg+xml,%3Csvg%20viewBox=%220%200%2016%2016%22%20fill=%22%23060e20%22%20xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect%20x=%224%22%20y=%224%22%20width=%228%22%20height=%228%22%20/%3E%3C/svg%3E')]">
+              <div class="flex items-center gap-3 font-sans text-sm select-none">
+                <span class="text-on-surface group-hover/child:text-primary transition-colors {% if asset.status == 'Offline' %}opacity-50{% endif %}">
+                  {{ asset.name }}
+                </span>
+                {% if asset.status == 'Offline' %}
+                  <span class="px-2 py-0.5 bg-outline-ghost text-outline-variant font-space text-[0.65rem] uppercase tracking-wider clip-status">Offline</span>
+                {% endif %}
+              </div>
+            </label>
+            {% endfor %}
+          </div>
+          
+        </div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
 
   <div id="map-tab" class="workspace hidden flex-1 px-16 pt-16 pb-16 overflow-hidden flex flex-col">
@@ -69,7 +106,6 @@
           {{ marker.id }}
         </div>
         <div class="w-3 h-3 bg-primary shadow-[0_0_15px_theme(colors.primary)]"></div>
-        
         {% else %}
         <div class="bg-outline-ghost text-outline-variant px-[14px] py-[6px] font-space text-[0.75rem] font-bold uppercase tracking-[0.1em] inline-flex items-center gap-2 clip-status">
           Offline
@@ -97,7 +133,6 @@
           </tr>
         </thead>
         <tbody>
-          
           {% for asset in assets %}
           <tr class="bg-surface-container hover:bg-surface-container-highest transition-colors duration-200 group {% if asset.status == 'Offline' %}opacity-75{% endif %}">
             <td class="p-6 {% if asset.status == 'Offline' %}text-outline-variant{% else %}text-primary{% endif %} font-space font-bold whitespace-nowrap">
@@ -120,7 +155,6 @@
             <td class="p-6 {% if asset.status == 'Offline' %}text-outline-variant{% else %}text-on-surface{% endif %} whitespace-nowrap">{{ asset.last_ping }} ago</td>
           </tr>
           {% endfor %}
-
         </tbody>
       </table>
     </div>
@@ -132,7 +166,8 @@
 <script>
   function switchTab(tabId, element) {
     document.querySelectorAll(".workspace").forEach((el) => {
-      el.classList.remove("block"); el.classList.add("hidden");
+      el.classList.remove("block");
+      el.classList.add("hidden");
     });
     document.getElementById(tabId).classList.remove("hidden");
     document.getElementById(tabId).classList.add("block");
@@ -144,5 +179,37 @@
     element.classList.remove("border-transparent", "text-outline-variant");
     element.classList.add("bg-surface-container-highest", "text-primary", "border-primary");
   }
+
+  // Grouped Checkbox Logic
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.tracking-group').forEach(group => {
+      const parentCb = group.querySelector('.parent-checkbox');
+      const childCbs = Array.from(group.querySelectorAll('.child-checkbox'));
+
+      // When the parent is clicked, set all children to match
+      parentCb.addEventListener('change', (e) => {
+        childCbs.forEach(child => child.checked = e.target.checked);
+      });
+
+      // When a child is clicked, update the parent's state
+      childCbs.forEach(child => {
+        child.addEventListener('change', () => {
+          const allChecked = childCbs.every(c => c.checked);
+          const noneChecked = childCbs.every(c => !c.checked);
+
+          if (allChecked) {
+            parentCb.checked = true;
+            parentCb.indeterminate = false;
+          } else if (noneChecked) {
+            parentCb.checked = false;
+            parentCb.indeterminate = false;
+          } else {
+            parentCb.checked = false; // Required for indeterminate to show visually
+            parentCb.indeterminate = true;
+          }
+        });
+      });
+    });
+  });
 </script>
 {% endblock %}

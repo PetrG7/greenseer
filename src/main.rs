@@ -62,6 +62,7 @@ async fn main() {
     unwrap();
 }
 
+//This function construct the HTML to serve with the template
 async fn handler_app(State(state): State<Arc<AppState>>) -> Result<Html<String>, StatusCode> {
     let template = state.env.get_template("app").unwrap();
 
@@ -79,7 +80,19 @@ async fn handler_app(State(state): State<Arc<AppState>>) -> Result<Html<String>,
     									status => "Active", 
     									coords => "49.2827° N, 123.1207° W", 
     									fuel => "84%", 
-    									last_ping => "00:00:04"}]})
+    									last_ping => "00:00:04"}],
+									asset_groups => context! {
+										//this here is modular, so i can add whatever i want
+										ground_vehicles => vec![
+											context! {name => "Tatra 815", status => "Active"},
+											context! {name => "Volvo Truck", status => "Offline"}
+											],
+										air_assets => vec![
+											context! {name => "Dronus spiritus", status => "Active"},
+											context! {name => "CAS stříleč", status => "Offline"}											
+											]
+										},
+    								})
     									.unwrap();
 
     Ok(Html(rendered))
