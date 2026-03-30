@@ -20,16 +20,16 @@ pub enum AssetTypes {
 
 pub struct Asset{
 	//vehicle, plane, tank, bmp...
-	asset_type: AssetTypes,
+	pub asset_type: AssetTypes,
 	//bmp-2, tatra 815...
-	asset_name: &'static str,
+	pub asset_name: &'static str,
 	//status - offline, online
-	asset_status: AssetStatus, // Either AssetStatus::Online or AssetStatus::Offline,
+	pub asset_status: AssetStatus, // Either AssetStatus::Online or AssetStatus::Offline,
 	//since these fields depend, they are options
 	//last GPS ping - could be some, could be none
-	last_ping: Option<DateTime<Local>>,
+	pub last_ping: Option<DateTime<Local>>,
 	//coordinates
-	last_coords: Option<ISO6709Coord>,
+	pub last_coords: Option<ISO6709Coord>,
 }
 
 

@@ -7,10 +7,19 @@ use std::sync::Arc;
 //importing the AppState struct from main.rs
 use crate::AppState;
 
+//importing structs for html template construction
+use crate::structs::{ AssetStatus, AssetTypes, Asset };
+
 
 //This function construct the HTML to serve with the template
 pub async fn handler_app(State(state): State<Arc<AppState>>) -> Result<Html<String>, StatusCode> {
     let template = state.env.get_template("app").unwrap();
+
+
+	//This is just for testing of the structs, later on, they will be pulled straight from the POSTGRESQ database
+	let vehicle1 = Asset { asset_type: AssetTypes::Truck, asset_name: "Gugugaga", asset_status: AssetStatus::Online, last_ping: None, last_coords: None};
+
+
 
     let rendered = template.render(context! 
     								{user => context! 
@@ -26,7 +35,21 @@ pub async fn handler_app(State(state): State<Arc<AppState>>) -> Result<Html<Stri
     									status => "Active", 
     									coords => "49.2827° N, 123.1207° W", 
     									fuel => "84%", 
-    									last_ping => "00:00:04"}],
+    									last_ping => "00:00:04"},
+										//testing of struct format
+										context!{
+											name => vehicle1.asset_name,
+											status => match vehicle1.asset_status{
+												AssetStatus::Online => "Active",
+												AssetStatus::Offline => "Offline",
+											},
+											//only placeholder for now, just testing the struct
+											coords => "placeholder, placeholdrs", 
+											fuel => "999%",
+											//only placeholder here, just testing the struct
+											last_ping => "00:00:111",
+										}
+    									],
 									asset_groups => context! {
 										//this here is modular, so i can add whatever i want
 										ground_vehicles => vec![
