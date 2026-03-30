@@ -4,6 +4,7 @@ use axum::{Router, response::Html, routing::get};
 use minijinja::{Environment, context};
 use std::sync::Arc;
 use tower_http::services::ServeDir;
+use tokio::signal;
 
 //this structure holds all of the stuff in the env
 //so far this is useless but will be good in the future
@@ -35,6 +36,8 @@ async fn main() {
     //pass the env with the templates to handlers via state (Arc takes care of some stuff i don't really understand)
     //i guess it offloads the appp state to the heap? ARC = Atomically reference counted - yeah idk
     let app_state = Arc::new(AppState { env });
+    //it basically puts the AppState on heap, insteaod of stack and distributes pointers to it between all the async functions
+    //it also keeps track of how many pointers it distributed and when that count is 0, it cleans it up
 
     //define the routes
     // will also have to be offloaded to a different file in the future probably
@@ -47,12 +50,16 @@ async fn main() {
         .with_state(app_state);
 
     //run server
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8080")
         .await
         .unwrap();
     println!("Listening on {}", listener.local_addr().unwrap());
 
-    axum::serve(listener, app).await;
+    axum::serve(listener, app)
+    //setup graceful shutdown here
+    .with_graceful_shutdown(shutdown_signal()).
+    await.
+    unwrap();
 }
 
 async fn handler_app(State(state): State<Arc<AppState>>) -> Result<Html<String>, StatusCode> {
@@ -85,4 +92,23 @@ async fn handler_logout(State(state): State<Arc<AppState>>) -> Result<Html<Strin
 	let rendered = template.render(context!{}).unwrap();
 
 	Ok(Html(rendered))
+}
+
+
+//function to accomodate graceful shutdown in docker
+async fn shutdown_signal() {
+	let ctrl_c = async {
+		signal::ctrl_c().await.expect("Failed to listen for CTRL+C");
+	};
+	let terminate = async {
+		//for unix systems
+		signal::unix::signal(signal::unix::SignalKind::terminate()).expect("Failed to listen for termination signal.").recv().await;
+	};
+
+	//what the hell is even this?
+	tokio::select! {
+		_ = ctrl_c => {},
+		_ = terminate => {},
+	}
+	tracing::info!("Graceful shutdown signal received");
 }
