@@ -40,6 +40,8 @@ async fn main() {
     // will also have to be offloaded to a different file in the future probably
     let app: Router = Router::new()
         .route("/", get(handler_app))
+        //logout route
+        .route("/logout", get(handler_logout))
         //so that styling works - my css and config.js are in the static folder
         .nest_service("/static", ServeDir::new("static"))
         .with_state(app_state);
@@ -62,7 +64,7 @@ async fn handler_app(State(state): State<Arc<AppState>>) -> Result<Html<String>,
     								stats => context! 
     									{ active_assets => "02", signal_integrity => 98.4}, 
     								map_markers => vec![
-    									context! {id => "PERKELE", status => "active", x => 70, y => 60}
+    									context! {id => "PERKELE", status => "Active", x => 30, y => 10}
     									],
     								assets => vec![
     									context! 
@@ -74,4 +76,13 @@ async fn handler_app(State(state): State<Arc<AppState>>) -> Result<Html<String>,
     									.unwrap();
 
     Ok(Html(rendered))
+}
+
+async fn handler_logout(State(state): State<Arc<AppState>>) -> Result<Html<String>, StatusCode> {
+
+	let template = state.env.get_template("login").unwrap();
+	//no arguments here for the temmplate
+	let rendered = template.render(context!{}).unwrap();
+
+	Ok(Html(rendered))
 }
